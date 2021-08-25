@@ -10,8 +10,16 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+mix.setResourceRoot('resources')
+    .setPublicPath('public')
+    .sass('resources/scss/bootstrap-vue.scss', 'css/bootstrap-vue.css')
+    .js('resources/js/app.js', 'js/bundle.js')
+    .vue()
+    .extract()
+    .version();
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+if (!mix.inProduction()) {
+    mix.browserSync({
+        proxy: 'http://process-maker-code-test.test'
+    });
+}

@@ -14,6 +14,13 @@ class RecordResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "id" => $this->id,
+            "uuid" => $this->uuid,
+            "name" => $this->name,
+            "description" => $this->description ?? '',
+            "code" => $this->code ?? '',
+            "status" => $this->status,
+        ];
     }
 }

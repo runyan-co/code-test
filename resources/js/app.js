@@ -1,7 +1,16 @@
-require('./bootstrap');
+window.axios = require('axios');
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import Vue from 'vue';
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import RecordTable from './components/RecordTable';
+
+import { BootstrapVue } from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
+
+const app = new Vue({
+    el: '#app',
+    components: {
+        'record-table': RecordTable
+    }
+});

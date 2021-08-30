@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Record;
+use App\Http\Resources\RecordResource;
 use Illuminate\Http\Request;
 
 class RecordController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * If an existing Record model is present (because the route had the
+     * primary key of the mode present e.g. /api/stored/1) then return
+     * the model data as JSON. Otherwise, send back a JSON array of all
+     * Record models in the database.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function retrieve(Request $request, Record $record = null)
+    public function retrieve(Request $request, Record $record)
     {
-        //
+        return $record->exists
+            ? response()->json(new RecordResource($record))
+            : response()->json(RecordResource::collection($record::all()));
     }
 
     /**

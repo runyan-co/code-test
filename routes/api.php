@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\RecordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('record.')->prefix('record')->group(function () {
 
-    Route::name('stored')->post('/stored', '');
+    Route::name('stored')
+         ->post('/stored/{record?}', [RecordController::class, 'retrieve']);
 });

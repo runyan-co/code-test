@@ -12,14 +12,15 @@ const mix = require('laravel-mix');
  */
 mix.setResourceRoot('resources')
     .setPublicPath('public')
-    .sass('resources/scss/bootstrap-vue.scss', 'css/bootstrap-vue.css')
+    .sass('resources/scss/app.scss', 'css/app.css')
     .js('resources/js/app.js', 'js/bundle.js')
-    .vue()
+    .vue({ version: 2 })
     .extract()
     .version();
 
 if (!mix.inProduction()) {
     mix.browserSync({
-        proxy: 'http://process-maker-code-test.test'
+        proxy: 'http://process-maker-code-test.test',
+        notify: false
     });
 }

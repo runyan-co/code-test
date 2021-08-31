@@ -143,12 +143,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'RecordTable',
   data: function data() {
     return {
-      id: 'record-table',
       items: [],
       fields: ['uuid', 'name', {
         key: 'status',
@@ -159,7 +161,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       editModal: {
         id: 'edit-modal',
-        record: {}
+        record: {},
+        error: false,
+        errorMessage: ''
       }
     };
   },
@@ -185,11 +189,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     handleClose: function handleClose(event) {
       // Reset the edit modal's target record
-      // data only if the modal was closed,
-      // if the event default was prevented we
-      // know it's still showing
+      // data only if the modal was closed
       if (!event.defaultPrevented) {
         this.editModal.record = {};
+        this.editModal.error = false;
       }
     },
     handleOk: function handleOk(event) {
@@ -215,13 +218,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // the data up for the specific record in
       // the table
       this.attemptUpdate().then(function (resp) {
+        // The response property "data" is an
+        // object representing the just now
+        // updated record
         Object.keys(resp.data).forEach(function (key) {
           // Only update the row data that has
           // matching keys with the response data
           if (Object.keys(_this2.editModal.record).includes(key)) {
             _this2.editModal.record[key] = resp.data[key];
           }
-        });
+        }); // Hide the edit modal since we are finished
+        // update the Vue instance with the latest
+
+        _this2.$root.$emit('bv::hide::modal', _this2.editModal.id);
+      })["catch"](function (e) {
+        // Show the error message to the user
+        // if there was an error
+        _this2.editModal.error = true;
+      })["finally"](function () {//
       });
     },
     attemptUpdate: function attemptUpdate() {
@@ -232,9 +246,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                // Set the modal state to loading
+                _this3.editModal.loading = true; // Referencing the $ref.form here as it
+                // points to the new data the user has
+                // input in the settings, which is what
+                // we want to use to update the record in
+                // the database
+
                 return _context.abrupt("return", axios.post("/api/record/update/".concat(_this3.$refs.form.formData.id), _this3.$refs.form.formData));
 
-              case 1:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -627,7 +648,6 @@ var render = function() {
           hover: "",
           "foot-clone": "",
           "primary-key": "id",
-          id: _vm.id,
           fields: _vm.fields,
           items: _vm.items
         },
@@ -671,7 +691,26 @@ var render = function() {
           _c("record-form", {
             ref: "form",
             attrs: { record: _vm.editModal.record }
-          })
+          }),
+          _vm._v(" "),
+          _c(
+            "b-alert",
+            {
+              attrs: { variant: "danger", dismissible: "" },
+              model: {
+                value: _vm.editModal.error,
+                callback: function($$v) {
+                  _vm.$set(_vm.editModal, "error", $$v)
+                },
+                expression: "editModal.error"
+              }
+            },
+            [
+              _vm._v(
+                "\n            There was an error while trying to update this record.\n        "
+              )
+            ]
+          )
         ],
         1
       )

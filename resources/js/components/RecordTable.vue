@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table striped hover foot-clone primary-key="id" :id="id" :fields="fields" :items="items">
+        <b-table striped hover foot-clone primary-key="id" :fields="fields" :items="items">
             <template #cell(actions)="row">
                 <b-button size="sm" @click="edit(row.item, row.index, $event.target)" class="mr-1">
                     Edit
@@ -17,6 +17,9 @@
             @hide="handleClose"
         >
             <record-form ref="form" v-bind:record="editModal.record" />
+            <b-alert variant="danger" v-model="editModal.error" dismissible>
+                There was an error while trying to update this record.
+            </b-alert>
         </b-modal>
     </div>
 </template>
@@ -28,7 +31,6 @@ export default {
     name: 'RecordTable',
     data() {
         return {
-            id: 'record-table',
             items: [],
             fields: [
                 'uuid',
@@ -38,7 +40,9 @@ export default {
             ],
             editModal: {
                 id: 'edit-modal',
-                record: {}
+                record: {},
+                error: false,
+                errorMessage: ''
             }
         };
     },
@@ -64,11 +68,10 @@ export default {
         },
         handleClose(event) {
             // Reset the edit modal's target record
-            // data only if the modal was closed,
-            // if the event default was prevented we
-            // know it's still showing
+            // data only if the modal was closed
             if (!event.defaultPrevented) {
                 this.editModal.record = {};
+                this.editModal.error = false;
             }
         },
         handleOk(event) {
@@ -87,17 +90,36 @@ export default {
             // if successful (200 response), then sync
             // the data up for the specific record in
             // the table
-            this.attemptUpdate().then(resp => {
-                Object.keys(resp.data).forEach(key => {
-                    // Only update the row data that has
-                    // matching keys with the response data
-                    if (Object.keys(this.editModal.record).includes(key)) {
-                        this.editModal.record[key] = resp.data[key];
-                    }
+            this.attemptUpdate()
+                .then(resp => {
+                    // The response property "data" is an
+                    // object representing the just now
+                    // updated record
+                    Object.keys(resp.data).forEach(key => {
+                        // Only update the row data that has
+                        // matching keys with the response data
+                        if (Object.keys(this.editModal.record).includes(key)) {
+                            this.editModal.record[key] = resp.data[key];
+                        }
+                    });
+
+                    // Hide the edit modal since we are finished
+                    // update the Vue instance with the latest
+                    this.$root.$emit('bv::hide::modal', this.editModal.id);
+                })
+                .catch(e => {
+                    // Show the error message to the user
+                    // if there was an error
+                    this.editModal.error = true;
+                })
+                .finally(() => {
+                    //
                 });
-            });
         },
         async attemptUpdate() {
+            // Set the modal state to loading
+            this.editModal.loading = true;
+
             // Referencing the $ref.form here as it
             // points to the new data the user has
             // input in the settings, which is what

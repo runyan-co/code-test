@@ -19,8 +19,5 @@ mix.setResourceRoot('resources')
     .version();
 
 if (!mix.inProduction()) {
-    mix.browserSync({
-        proxy: 'http://process-maker-code-test.test',
-        notify: false
-    });
+    mix.browserSync('http://process-maker-code-test.test');
 }

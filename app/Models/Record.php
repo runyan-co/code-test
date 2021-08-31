@@ -33,12 +33,12 @@ class Record extends Model
         // a value of true will be considered equivalent
         // to "active" and false to "inactive"
         if (is_bool($value)) {
-            $this->attributes['status'] = $value ? 'active' : 'inactive';
+            $this->attributes['status'] = $value ? 'Active' : 'Inactive';
 
         // If the value is a string and is one of the
         // accepted values, "active" or "inactive",
         // then set it to the property
-        } else if (is_string($value) && in_array($value, ['active', 'inactive'])) {
+        } else if (is_string($value) && in_array($value, ['Active', 'Inactive'])) {
             $this->attributes['status'] = $value;
 
         // Otherwise, throw an exception that an invalid

@@ -13,7 +13,7 @@
                     <b-col class="my-5" cols="10">
                         <h3>Record Collection</h3>
                         <p>Coding test by Alex Runyan for ProcessMaker.</p>
-                        <record-table></record-table>
+                        <record-table/>
                     </b-col>
                 </b-row>
             </b-container>

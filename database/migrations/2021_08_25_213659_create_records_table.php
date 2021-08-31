@@ -16,10 +16,10 @@ class CreateRecordsTable extends Migration
         Schema::create('records', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->index();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->longText('description')->nullable();
-            $table->longText('code');
-            $table->string('status')->default('active');
+            $table->longText('code')->nullable();
+            $table->string('status')->default('Active');
             $table->timestamps();
         });
     }

@@ -21,4 +21,7 @@ Route::name('record.')->prefix('record')->group(function () {
 
     Route::name('update')
          ->post('/update/{record}', [RecordController::class, 'update']);
+
+    Route::name('delete')
+        ->delete('/delete/{record}', [RecordController::class, 'delete']);
 });

@@ -30,17 +30,6 @@ class RecordController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request): JsonResponse
-    {
-        return response()->json([]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -73,12 +62,9 @@ class RecordController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Record  $record
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(Record $record): JsonResponse
+    public function delete(Request $request, Record $record): JsonResponse
     {
-        return response()->json([]);
+        return response()->json([$record->delete()]);
     }
 }

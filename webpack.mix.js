@@ -13,7 +13,7 @@ const mix = require('laravel-mix');
 mix.setResourceRoot('resources')
     .setPublicPath('public')
     .sass('resources/scss/app.scss', 'css/app.css')
-    .js('resources/js/app.js', 'js/bundle.js')
+    .js('resources/js/index.js', 'js/bundle.js')
     .vue({ version: 2 })
     .extract()
     .version();

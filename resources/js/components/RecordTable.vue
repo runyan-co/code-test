@@ -50,6 +50,7 @@
                 :fields="fields"
                 :busy.sync="isBusy"
                 :items="records"
+                @filtered="handleFiltered"
             >
                 <template #cell(actions)="row">
                     <b-button

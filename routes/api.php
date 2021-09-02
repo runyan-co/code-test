@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::name('record.')->prefix('record')->group(function () {
 
     Route::name('stored')
-         ->post('/stored/{record?}', [RecordController::class, 'retrieve']);
+         ->post('/stored', [RecordController::class, 'retrieve']);
 
     Route::name('update')
          ->post('/update/{record}', [RecordController::class, 'update']);

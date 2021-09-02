@@ -3,21 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Records</title>
+        <title>Record Collection | Code Test</title>
         <link href="{{ mix('/css/app.css') }}" as="style" rel="stylesheet">
     </head>
     <body class="bg-light">
-        <div id="app">
-            <b-container>
-                <b-row class="justify-content-md-center">
-                    <b-col class="my-5 p-5 bg-white" cols="11">
-                        <h3>Record Collection</h3>
-                        <p>Coding test by Alex Runyan for ProcessMaker.</p>
-                        <record-table/>
-                    </b-col>
-                </b-row>
-            </b-container>
-        </div>
+        <div id="app"></div>
         <script src="{{ mix('/js/manifest.js') }}"></script>
         <script src="{{ mix('/js/vendor.js') }}"></script>
         <script src="{{ mix('/js/bundle.js') }}"></script>

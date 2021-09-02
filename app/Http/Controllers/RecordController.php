@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Throwable;
 use App\Models\Record;
 use App\Http\Resources\RecordResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Exceptions\InvalidRecordStatusValue;
 
 class RecordController extends Controller
 {
@@ -22,11 +22,9 @@ class RecordController extends Controller
      *
      * @return JsonResponse
      */
-    public function retrieve(Request $request, Record $record): JsonResponse
+    public function retrieve(Request $request): JsonResponse
     {
-        return $record->exists
-            ? response()->json(new RecordResource($record))
-            : response()->json(RecordResource::collection($record::all()));
+        return response()->json(RecordResource::collection(Record::all()));
     }
 
     /**
